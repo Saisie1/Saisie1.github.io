@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intranet - Loterie Romande</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div id="loaderOverlay" class="loader-overlay">
+        <div class="loader-container">
+            <!-- Nouveau loader SVG -->
+            <svg 
+              class="custom-loader-svg" 
+              x="0px" 
+              y="0px" 
+              viewBox="0 0 40 40" 
+              height="40" 
+              width="40" 
+              preserveAspectRatio="xMidYMid meet">
+            <path 
+              class="track" 
+              fill="none" 
+              stroke-width="4" 
+              pathLength="100" 
+              d="M29.76 18.72c0 7.28-3.92 13.6-9.84 16.96-2.88 1.68-6.24 2.64-9.84 2.64-3.6 0-6.88-.96-9.76-2.64 0-7.28 3.92-13.52 9.84-16.96 2.88-1.68 6.24-2.64 9.76-2.64s6.88.96 9.76 2.64c5.84 3.36 9.76 9.68 9.84 16.96-2.88 1.68-6.24 2.64-9.76 2.64-3.6 0-6.88-.96-9.84-2.64-5.84-3.36-9.76-9.68-9.76-16.96 0-7.28 3.92-13.6 9.76-16.96C25.84 5.12 29.76 11.44 29.76 18.72z">
+            </path>
+            <path 
+              class="car" 
+              fill="none" 
+              stroke-width="4" 
+              pathLength="100" 
+              d="M29.76 18.72c0 7.28-3.92 13.6-9.84 16.96-2.88 1.68-6.24 2.64-9.84 2.64-3.6 0-6.88-.96-9.76-2.64 0-7.28 3.92-13.52 9.84-16.96 2.88-1.68 6.24-2.64 9.76-2.64s6.88.96 9.76 2.64c5.84 3.36 9.76 9.68 9.84 16.96-2.88 1.68-6.24 2.64-9.76 2.64-3.6 0-6.88-.96-9.84-2.64-5.84-3.36-9.76-9.68-9.76-16.96 0-7.28 3.92-13.6 9.76-16.96C25.84 5.12 29.76 11.44 29.76 18.72z">
+            </path>
+            </svg>
+            <p class="loader-text">Chargement en cours...</p>
+        </div>
+    </div>
+    <!-- Modal de bienvenue -->
+    <div id="welcomeModal" class="welcome-modal">
+        <div class="welcome-modal-content">
+            <div class="welcome-header">
+                <div class="welcome-logo-circle"></div>
+                <h2>👋 Bienvenue sur l'Intranet</h2>
+                <p>Loterie Romande</p>
+            </div>
+            <div class="welcome-body">
+                <p>Pour personnaliser votre expérience, veuillez entrer votre nom :</p>
+                <div class="form-group">
+                    <label for="userName">Votre nom</label>
+                    <input type="text" id="userName" placeholder="Ex: Jean Dupont" autocomplete="name">
+                </div>
+                <button class="primary-btn" id="saveUserName">Continuer</button>
+            </div>
+        </div>
+    </div>
+    <input type="checkbox" id="darkModeToggle" class="dark-mode-checkbox">
+    
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-circle"></div>
+                <div class="logo-text">
+                    <h1>LOTERIE ROMANDE</h1>
+                    <p>Intranet - Espace Collaborateurs</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <p id="currentDate">📅 Jeudi 8 janvier 2026</p>
+                    <p id="userGreeting">👤 Bienvenue, Collaborateur</p>
+                </div>
+                <label for="darkModeToggle" class="theme-toggle">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon">🌙</span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">📢 ACTUALITÉS</h2>
+            
+            <div class="news-list" id="newsList"></div>
+
+            <div class="news-form">
+                <h3 style="color: #F27405; margin-bottom: 15px; font-weight: bold;">➕ Ajouter une actualité</h3>
+                <div class="form-group">
+                    <label for="newsTitle">Titre de l'actualité</label>
+                    <input type="text" id="newsTitle" placeholder="Ex: Nouvelle politique de télétravail">
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Description</label>
+                    <textarea id="newsContent" rows="3" placeholder="Détails de l'actualité..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newsDate">Date de l'actualité</label>
+                    <input type="date" id="newsDate">
+                </div>
+                <div class="form-group">
+                    <label for="newsTime">Heure de l'actualité</label>
+                    <input type="time" id="newsTime">
+                </div>
+                <button class="primary-btn" id="addNewsBtn" title="Publier l'actualité">Publier l'actualité</button>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">📋 RESSOURCES HUMAINES</h2>
+            <p style="color: #666; margin-bottom: 20px;">Documents et formulaires administratifs</p>
+            
+            <div class="hr-documents">
+                <div class="document-card">
+                    <div class="document-icon">🅿️</div>
+                    <h3>Règles du Parking</h3>
+                    <p>Règlement et attribution des places de parking</p>
+                    <a href="./documents/regles_parking.pdf" class="download-btn" download>📥 Télécharger PDF</a>
+                </div>
+
+                <div class="document-card">
+                    <div class="document-icon">🥗</div>
+                    <h3>Règlement Cafétéria</h3>
+                    <p>Horaires et règles d'utilisation de la cafétéria</p>
+                    <a href="./documents/reglement_cafeteria.pdf" class="download-btn" download>📥 Télécharger PDF</a>
+                </div>
+
+                <div class="document-card">
+                    <div class="document-icon">🏖️</div>
+                    <h3>Demande de Congé</h3>
+                    <p>Formulaire de demande de congés payés<br><br></p>
+                    <a href="./documents/formulaire_conge.pdf" class="download-btn" download>📥 Télécharger PDF</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title" id="calendarTitle">📅 CALENDRIER DES ÉVÉNEMENTS - JANVIER 2025</h2>
+            <div class="month-navigation">
+    <button class="nav-btn prev" id="prevMonthBtn"></button>
+    <div class="month-year-display">
+        <h2 id="monthYearLabel">Janvier 2026</h2>
+    </div>
+    <button class="nav-btn next" id="nextMonthBtn"></button>
+</div>
+            <div class="calendar-container">
+                <div class="calendar-grid" id="calendarGrid"></div>
+                
+                <div class="visit-form" id="visitForm">
+                    <h4 id="formTitle">📅 Sélectionnez une date</h4>
+                    <div class="form-group">
+                        <label>Nom du visiteur</label>
+                        <input type="text" id="visitorName" placeholder="Ex: M. Dupont">
+                    </div>
+                    <div class="form-group">
+                        <label>Société</label>
+                        <input type="text" id="visitorCompany" placeholder="Ex: Partenaire XYZ">
+                    </div>
+                    <div class="form-group">
+                        <label>Heure</label>
+                        <input type="time" id="visitorTime" value="09:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Motif</label>
+                        <textarea id="visitorReason" rows="2" placeholder="Ex: Réunion partenariat"></textarea>
+                    </div>
+                    <button class="add-btn" id="addVisitBtn">Réserver</button>
+                </div>
+            </div>
+
+            <div class="visits-list-section">
+                <h3 style="color: #F27405; margin-bottom: 15px; font-weight: bold;">📋 Prochaines visites programmées</h3>
+                <div id="visitsList"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Loterie Romande</h3>
+                <p>Rue Marterey 13</p>
+                <p>1005 Lausanne</p>
+                <p>📞 021 348 38 38</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Utiles</h3>
+                <a href="#">Portail RH</a>
+                <a href="#">Support IT</a>
+                <a href="#">Annuaire interne</a>
+                <a href="#">Réserver salle de réunion</a>
+            </div>
+            <div class="footer-section">
+                <h3>Horaires</h3>
+                <p>Lundi - Vendredi</p>
+                <p>08:00 - 17:00</p>
+                <p style="margin-top: 15px;">En cas d'urgence:</p>
+                <p>📱 078 XXX XX XX</p>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <p>Pour toute question concernant cet intranet:</p>
+                <a href="mailto:support@loro.ch">support@loro.ch</a>
+                <p style="margin-top: 15px;">Service IT disponible de 8h à 17h</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Loterie Romande - Intranet Collaborateurs - Version 1.0</p>
+        </div>
+    </footer>
+
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    // ========== STOCKAGE PERSISTANT ==========
+    const load = async (key) => {
+        try {
+            const raw = localStorage.getItem(key);
+            if (raw === null || raw === undefined) return null;
+            return JSON.parse(raw);
+        } catch (err) {
+            console.error('Erreur lecture stockage:', err);
+            return null;
+        }
+    };
+
+    const save = async (key, data) => {
+        try {
+            localStorage.setItem(key, JSON.stringify(data));
+        } catch (error) {
+            console.error('Erreur de sauvegarde:', error);
+        }
+    };
+// ========== GESTION UTILISATEUR ==========
+    const welcomeModal = document.getElementById('welcomeModal');
+    const userNameInput = document.getElementById('userName');
+    const saveUserNameBtn = document.getElementById('saveUserName');
+    const userGreeting = document.getElementById('userGreeting');
+
+    // Vérifier si l'utilisateur existe déjà
+    const storedUserName = await load('userName');
+    
+    if (!storedUserName) {
+        // Première visite - afficher la modal
+        welcomeModal.style.display = 'flex';
+        
+        // Gérer la soumission du nom
+        const submitUserName = async () => {
+            const name = userNameInput.value.trim();
+            if (!name) {
+                alert('Veuillez entrer votre nom');
+                return;
+            }
+            
+            await save('userName', name);
+            userGreeting.textContent = `👤 Bienvenue, ${name}`;
+            welcomeModal.style.display = 'none';
+        };
+        
+        saveUserNameBtn.addEventListener('click', submitUserName);
+        userNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitUserName();
+            }
+        });
+    } else {
+        // Utilisateur connu - afficher son nom
+        userGreeting.textContent = `👤 Bienvenue, ${storedUserName}`;
+    }
+    // ========== DARK MODE ==========
+    const toggle = document.getElementById("darkModeToggle");
+    
+    try {
+        const darkModeData = await load('darkMode');
+        if (darkModeData === 'on') {
+            document.body.classList.add("dark-mode");
+            toggle.checked = true;
+        }
+    } catch (e) {}
+
+    toggle.addEventListener("change", async () => {
+        document.body.classList.toggle("dark-mode", toggle.checked);
+        await save('darkMode', toggle.checked ? 'on' : 'off');
+    });
+
+    // ========== DATE AUTO ==========
+    const dateEl = document.getElementById("currentDate");
+    const now = new Date();
+    const dateStr = now.toLocaleDateString("fr-FR", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+    dateEl.innerText = "📅 " + dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+
+    // ========== ACTUALITÉS ==========
+    const newsList = document.getElementById("newsList");
+    const newsTitle = document.getElementById("newsTitle");
+    const newsContent = document.getElementById("newsContent");
+    const addNewsBtn = document.getElementById("addNewsBtn");
+
+    // Données d'actualité par défaut
+    const defaultNews = [
+    { title: "Atelier bien-être au travail", content: "Participez à notre atelier bien-être le 12 janvier à 15h en salle de conférence. Inscription auprès de RH.", date: "12/01/2026", time: "15:00" },
+    { title: "Formation cybersécurité", content: "Nouvelle session de formation sur la sécurité informatique le 18 janvier.", date: "18/01/2026", time: "10:00" },
+    { title: "Ouverture d'une nouvelle salle de réunion", content: "La salle 4B est désormais disponible à la réservation.", date: "22/01/2026", time: "11:00" },
+    { title: "Refonte du portail RH", content: "Le portail RH a été modernisé pour faciliter vos démarches administratives.", date: "25/01/2026", time: "09:30" },
+    { title: "Campagne de dons solidaire", content: "Participez à la collecte de vêtements pour une association locale.", date: "29/01/2026", time: "16:00" },
+    { title: "Atelier gestion du temps", content: "Inscrivez-vous à l'atelier pour améliorer votre organisation personnelle.", date: "02/02/2026", time: "13:30" },
+    { title: "Mise à jour du réseau informatique", content: "Interruption du réseau prévue le 5 février à 18h pour maintenance.", date: "05/02/2026", time: "18:00" },
+    { title: "Nouveau menu à la cafétéria", content: "Découvrez les nouveaux plats végétariens proposés chaque jour.", date: "09/02/2026", time: "12:00" },
+    { title: "Programme de mentorat", content: "Lancement du programme de mentorat pour les nouveaux arrivants.", date: "12/02/2026", time: "09:00" },
+    { title: "Audit qualité externe réussi", content: "L'audit ISO s'est conclu positivement, bravo à tous !", date: "15/02/2026", time: "15:00" },
+    { title: "Séance de yoga au bureau", content: "Cours de yoga chaque mercredi matin, inscription auprès de RH.", date: "19/02/2026", time: "07:45" },
+    { title: "Changement d'horaires d'été", content: "Horaires modulés pour la période estivale, fermeture à 16h30 le vendredi.", date: "23/02/2026", time: "10:00" },
+    { title: "Annonce des promotions trimestrielles", content: "Félicitations aux collaborateurs promus ce trimestre.", date: "26/02/2026", time: "11:00" },
+    { title: "Projet RSE : reforestation", content: "Participez au projet de reforestation lancé cette année.", date: "01/03/2026", time: "09:00" },
+    { title: "Test d'évacuation incendie", content: "Exercice d'évacuation le 4 mars à 10h30, merci de participer.", date: "04/03/2026", time: "10:30" },
+    { title: "Nouvelle application notes de frais", content: "Soumettez vos dépenses via l'application mobile dès aujourd'hui.", date: "08/03/2026", time: "14:00" },
+    { title: "Enquête satisfaction interne", content: "Participez à l'enquête annuelle pour améliorer l'environnement de travail.", date: "12/03/2026", time: "09:00" },
+    { title: "Partenariat fournisseur IT", content: "Accord signé pour moderniser les postes de travail.", date: "16/03/2026", time: "11:00" },
+    { title: "Atelier communication efficace", content: "Session le 20 mars pour améliorer la communication interne.", date: "20/03/2026", time: "15:00" },
+    { title: "Journée portes ouvertes", content: "Venez découvrir les nouveaux locaux le 24 mars.", date: "24/03/2026", time: "10:00" },
+    { title: "Mise à jour du règlement interne", content: "Consultez les nouvelles règles dans la section RH.", date: "28/03/2026", time: "09:30" },
+    { title: "Atelier premiers secours", content: "Formation premiers secours le 1er avril, inscription obligatoire.", date: "01/04/2026", time: "14:00" },
+    { title: "Nouveau service de navette", content: "Service de navette disponible entre la gare et l'entreprise.", date: "05/04/2026", time: "08:00" },
+    { title: "Concours photo interne", content: "Participez au concours photo, lots à gagner !", date: "09/04/2026", time: "12:00" },
+    { title: "Atelier gestion du stress", content: "Session le 13 avril pour apprendre à mieux gérer le stress.", date: "13/04/2026", time: "16:00" },
+    { title: "Nouveau système de badge", content: "Les nouveaux badges seront distribués le 17 avril.", date: "17/04/2026", time: "09:00" },
+    { title: "Séminaire innovation", content: "Séminaire sur l'innovation le 21 avril, ouvert à tous.", date: "21/04/2026", time: "10:30" }
+];
+
+    // Données de visites par défaut
+    const defaultEvents = [
+        { name: "M. Jean-Pierre Durand", company: "Banque Cantonale", time: "09:30", reason: "Présentation des nouveaux services bancaires", date: "Janvier 8 2026", day: 8, month: 0, year: 2026 },
+        { name: "Mme Sophie Lemoine", company: "Agence Com'Plus", time: "11:00", reason: "Réunion communication interne", date: "Janvier 12 2026", day: 12, month: 0, year: 2026 },
+        { name: "M. Luca Bianchi", company: "Consultant IT", time: "14:30", reason: "Audit sécurité informatique", date: "Janvier 15 2026", day: 15, month: 0, year: 2026 }
+    ];
+
+    // Initialisation des données par défaut si vide
+    if (!localStorage.getItem('newsData')) {
+        localStorage.setItem('newsData', JSON.stringify(defaultNews));
+    }
+    if (!localStorage.getItem('eventsData')) {
+        localStorage.setItem('eventsData', JSON.stringify(defaultEvents));
+    }
+
+    // Edition actualité
+    let editingNewsIndex = null;
+    let showAllNews = false;
+
+    const renderNews = async () => {
+        const news = (await load('newsData')) || [];
+        // Trie par date décroissante (plus récente en premier)
+        news.sort((b, a) => {
+            const parse = s => {
+                const [date] = s.date.split(' à ');
+                const [d, m, y] = date.split('/').map(Number);
+                return new Date(y, m-1, d);
+            };
+            return parse(b) - parse(a);
+        });
+        newsList.innerHTML = "";
+        let toShow = [];
+        const now = new Date();
+        const upcoming = news.filter(n => {
+            const [date] = n.date.split(' à ');
+            const [d, m, y] = date.split('/').map(Number);
+            const nDate = new Date(y, m-1, d);
+            return nDate >= new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        });
+        if (!showAllNews) {
+            if (upcoming.length < 3) {
+                toShow = news.slice(0, 3);
+            } else {
+                toShow = upcoming.slice(0, 3);
+            }
+        } else {
+            // Afficher d'abord toutes les à venir, puis toutes les passées (ordre décroissant)
+            const past = news.filter(n => {
+                const [date] = n.date.split(' à ');
+                const [d, m, y] = date.split('/').map(Number);
+                const nDate = new Date(y, m-1, d);
+                return nDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            });
+            toShow = [...upcoming, ...past];
+        }
+        if (toShow.length === 0) {
+            newsList.innerHTML = `
+                <div style="padding: 20px; text-align: center; color: #999;">
+                    Aucune actualité pour le moment. Ajoutez-en une !
+                </div>
+            `;
+            return;
+        }
+        toShow.forEach((n, index) => {
+            const div = document.createElement("div");
+            div.className = "news-item" + (editingNewsIndex === index ? " editing" : "");
+            if (editingNewsIndex === index) {
+                div.innerHTML = `
+                    <div class="news-content">
+                        <div class="form-group">
+                            <label for="editNewsTitle">Titre de l'actualité</label>
+                            <input type="text" id="editNewsTitle" value="${n.title.replace(/"/g, '&quot;')}">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNewsContent">Description</label>
+                            <textarea id="editNewsContent" rows="2">${n.content}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editNewsDate">Date de l'actualité</label>
+                            <input type="date" id="editNewsDate" value="${n.date ? (() => { const d = n.date.split('/'); return d.length === 3 ? `${d[2]}-${d[1].padStart(2,'0')}-${d[0].padStart(2,'0')}` : '' })() : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNewsTime">Heure de l'actualité</label>
+                            <input type="time" id="editNewsTime" value="${n.time ? n.time : ''}">
+                        </div>
+                        <p class="news-date">📅 ${n.date}${n.time ? ' à ' + n.time : ''}</p>
+                    </div>
+                    <div class="news-actions">
+                        <button class="add-btn" id="saveEditNewsBtn" title="Enregistrer">💾</button>
+                        <button class="delete-btn" id="cancelEditNewsBtn" title="Annuler">✖️</button>
+                    </div>
+                `;
+                div.querySelector('#saveEditNewsBtn').onclick = async () => {
+                    const title = div.querySelector('#editNewsTitle').value.trim();
+                    const content = div.querySelector('#editNewsContent').value.trim();
+                    const dateInput = div.querySelector('#editNewsDate').value;
+                    const timeInput = div.querySelector('#editNewsTime').value;
+                    let date;
+                    if (dateInput) {
+                        const d = new Date(dateInput);
+                        date = d.toLocaleDateString('fr-FR');
+                    } else {
+                        date = new Date().toLocaleDateString('fr-FR');
+                    }
+                    let time = timeInput ? timeInput : new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+                    if (!title || !content) { alert('Champs requis'); return; }
+                    news[index].title = title;
+                    news[index].content = content;
+                    news[index].date = date;
+                    news[index].time = time;
+                    document.getElementById('loaderOverlay').style.display = 'flex';
+                    document.querySelector('.loader-text').innerText = 'Application des changements...';
+                    setTimeout(async () => {
+                        await save('newsData', news);
+                        editingNewsIndex = null;
+                        document.getElementById('loaderOverlay').style.display = 'none';
+                        document.querySelector('.loader-text').innerText = 'Chargement en cours...';
+                        renderNews();
+                    }, 3000);
+                };
+                div.querySelector('#cancelEditNewsBtn').onclick = () => {
+                    editingNewsIndex = null;
+                    renderNews();
+                };
+            } else {
+                div.innerHTML = `
+                    <div class="news-content">
+                        <h3>${n.title}</h3>
+                        <p>${n.content}</p>
+                        <p class="news-date">📅 ${n.date}${n.time ? ' à ' + n.time : ''}</p>
+                    </div>
+                    <div class="news-actions">
+                        <button class="add-btn" data-edit="${index}">✒️</button>
+                        <button class="delete-btn" data-index="${index}">🗑️</button>
+                    </div>
+                `;
+            }
+            newsList.appendChild(div);
+        });
+
+        // Suppression
+        document.querySelectorAll('.news-item .delete-btn[data-index]').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                if (confirm('Supprimer cette actualité ?')) {
+                    const index = parseInt(e.target.dataset.index);
+                    const news = (await load('newsData')) || [];
+                    news.splice(index, 1);
+                    await save('newsData', news);
+                    renderNews();
+                }
+            });
+        });
+        // Edition
+        document.querySelectorAll('.news-item .add-btn[data-edit]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                editingNewsIndex = parseInt(e.target.dataset.edit);
+                renderNews();
+            });
+        });
+
+        // Ajoute le bouton "Afficher tout" si besoin
+        if (!showAllNews && news.length > 3) {
+            const btn = document.createElement('button');
+            btn.className = 'secondary-btn';
+            btn.style.margin = '24px auto 0 auto';
+            btn.style.display = 'block';
+            btn.innerText = 'Afficher tout';
+            btn.onclick = () => {
+                showAllNews = true;
+                renderNews();
+            };
+            newsList.appendChild(btn);
+        }
+        // Si showAllNews, ajoute un bouton "Réduire" en bas
+        if (showAllNews && news.length > 3) {
+            const btn = document.createElement('button');
+            btn.className = 'secondary-btn';
+            btn.style.margin = '24px auto 0 auto';
+            btn.style.display = 'block';
+            btn.innerText = 'Réduire';
+            btn.onclick = () => {
+                showAllNews = false;
+                renderNews();
+            };
+            newsList.appendChild(btn);
+        }
+    };
+
+    addNewsBtn.addEventListener('click', async () => {
+        const title = newsTitle.value.trim();
+        const content = newsContent.value.trim();
+        const dateInput = document.getElementById('newsDate').value;
+        const timeInput = document.getElementById('newsTime').value;
+        let date;
+        if (dateInput) {
+            const d = new Date(dateInput);
+            date = d.toLocaleDateString('fr-FR');
+        } else {
+            date = new Date().toLocaleDateString('fr-FR');
+        }
+        let time = timeInput ? timeInput : new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'});
+        if (!title || !content) {
+            alert('Veuillez remplir tous les champs');
+            return;
+        }
+        document.getElementById('loaderOverlay').style.display = 'flex';
+        document.querySelector('.loader-text').innerText = 'Chargement en cours...';
+        setTimeout(async () => {
+            const news = (await load('newsData')) || [];
+            news.unshift({
+                title,
+                content,
+                date,
+                time
+            });
+            await save('newsData', news);
+            newsTitle.value = '';
+            newsContent.value = '';
+            document.getElementById('newsDate').value = '';
+            document.getElementById('newsTime').value = '';
+            document.getElementById('loaderOverlay').style.display = 'none';
+            document.querySelector('.loader-text').innerText = 'Chargement en cours...';
+            renderNews();
+        }, 3000);
+    });
+
+    await renderNews();
+
+    // ========== CALENDRIER ==========
+    const calendarGrid = document.getElementById('calendarGrid');
+    const visitForm = document.getElementById('visitForm');
+    const formTitle = document.getElementById('formTitle');
+    const addVisitBtn = document.getElementById('addVisitBtn');
+    const calendarTitle = document.getElementById('calendarTitle');
+    const monthYearLabel = document.getElementById('monthYearLabel');
+    const prevMonthBtn = document.getElementById('prevMonthBtn');
+    const nextMonthBtn = document.getElementById('nextMonthBtn');
+    
+    let selectedDay = null;
+    let selectedMonth = new Date().getMonth(); // 0-11
+    let selectedYear = new Date().getFullYear();
+
+    const monthNames = [
+        'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    ];
+
+    function daysInMonth(month, year) {
+        return new Date(year, month + 1, 0).getDate();
+    }
+
+    function isPastDay(day, month, year) {
+        const now = new Date();
+        const date = new Date(year, month, day);
+        return date < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    }
+
+    const renderCalendar = async () => {
+        const events = (await load('eventsData')) || [];
+        const days = daysInMonth(selectedMonth, selectedYear);
+        const firstDay = new Date(selectedYear, selectedMonth, 1).getDay(); // 0=dimanche
+        let startOffset = (firstDay === 0 ? 6 : firstDay - 1); // Lundi=0
+
+        calendarTitle.innerText = `📅 CALENDRIER DES ÉVÉNEMENTS - ${monthNames[selectedMonth]} ${selectedYear}`;
+        monthYearLabel.innerText = `${monthNames[selectedMonth]} ${selectedYear}`;
+
+        calendarGrid.innerHTML = `
+            <div class="calendar-header">Lun</div>
+            <div class="calendar-header">Mar</div>
+            <div class="calendar-header">Mer</div>
+            <div class="calendar-header">Jeu</div>
+            <div class="calendar-header">Ven</div>
+            <div class="calendar-header">Sam</div>
+            <div class="calendar-header">Dim</div>
+        `;
+        for (let i = 0; i < startOffset; i++) {
+            calendarGrid.innerHTML += '<div class="calendar-day empty"></div>';
+        }
+        for (let day = 1; day <= days; day++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'calendar-day';
+            const isToday = (day === new Date().getDate() && selectedMonth === new Date().getMonth() && selectedYear === new Date().getFullYear());
+            if (isToday) dayDiv.classList.add('today');
+            const dayEvents = events.filter(e => e.date === `${monthNames[selectedMonth]} ${day} ${selectedYear}`);
+            if (dayEvents.length > 0) {
+                dayDiv.classList.add('has-visit');
+            }
+            dayDiv.innerHTML = `
+                <span class="day-number">${day}</span>
+                ${isToday ? '<span class="today-badge">Aujourd\'hui</span>' : ''}
+                ${dayEvents.length > 0 ? `<span class="visit-badge">${dayEvents.length}</span>` : ''}
+            `;
+            if (!isPastDay(day, selectedMonth, selectedYear)) {
+                dayDiv.addEventListener('click', () => {
+                    selectedDay = day;
+                    visitForm.classList.add('active');
+                    formTitle.innerText = `📅 ${monthNames[selectedMonth]} ${day} ${selectedYear}`;
+                });
+            } else {
+                dayDiv.style.opacity = '0.5';
+                dayDiv.style.pointerEvents = 'none';
+            }
+            calendarGrid.appendChild(dayDiv);
+        }
+    };
+
+    prevMonthBtn.addEventListener('click', () => {
+        selectedMonth--;
+        if (selectedMonth < 0) {
+            selectedMonth = 11;
+            selectedYear--;
+        }
+        visitForm.classList.remove('active');
+        renderCalendar();
+        renderVisits();
+    });
+    nextMonthBtn.addEventListener('click', () => {
+        selectedMonth++;
+        if (selectedMonth > 11) {
+            selectedMonth = 0;
+            selectedYear++;
+        }
+        visitForm.classList.remove('active');
+        renderCalendar();
+        renderVisits();
+    });
+
+    addVisitBtn.addEventListener('click', async () => {
+        const name = document.getElementById('visitorName').value.trim();
+        const company = document.getElementById('visitorCompany').value.trim();
+        const time = document.getElementById('visitorTime').value;
+        const reason = document.getElementById('visitorReason').value.trim();
+
+        if (!name || !company || !time || !reason || !selectedDay) {
+            alert('Veuillez remplir tous les champs');
+            return;
+        }
+        if (isPastDay(selectedDay, selectedMonth, selectedYear)) {
+            alert('Impossible de réserver dans le passé !');
+            return;
+        }
+
+        // Affiche le loader SVG pendant 3 secondes (modifie ce temps ici si besoin)
+        document.getElementById('loaderOverlay').style.display = 'flex';
+        setTimeout(async () => {
+            const events = (await load('eventsData')) || [];
+            events.push({
+                name,
+                company,
+                time,
+                reason,
+                date: `${monthNames[selectedMonth]} ${selectedDay} ${selectedYear}`,
+                day: selectedDay,
+                month: selectedMonth,
+                year: selectedYear
+            });
+            await save('eventsData', events);
+
+            document.getElementById('visitorName').value = '';
+            document.getElementById('visitorCompany').value = '';
+            document.getElementById('visitorTime').value = '09:00';
+            document.getElementById('visitorReason').value = '';
+            visitForm.classList.remove('active');
+            document.getElementById('loaderOverlay').style.display = 'none';
+            await renderCalendar();
+            await renderVisits();
+        }, 3000); // <-- Durée du loader en ms (ici 3 secondes)
+    });
+
+    // Edition visite
+    let editingVisitIndex = null;
+    let editingVisitObj = null;
+
+    const visitsList = document.getElementById('visitsList');
+
+    const renderVisits = async () => {
+        const events = (await load('eventsData')) || [];
+        visitsList.innerHTML = '';
+        const filtered = events.filter(e => e.year === selectedYear && e.month === selectedMonth);
+        if (filtered.length === 0) {
+            visitsList.innerHTML = `
+                <div style="padding: 20px; text-align: center; color: #999;">
+                    Aucune visite programmée. Cliquez sur une date du calendrier pour en ajouter.
+                </div>
+            `;
+            return;
+        }
+        filtered.forEach((e, index) => {
+            const globalIndex = events.indexOf(e);
+            const div = document.createElement('div');
+            div.className = 'visit-item';
+            if (editingVisitIndex === globalIndex) {
+div.classList.add('editing');
+div.innerHTML = `
+    <div class="visit-edit-header">
+        📅 ${e.date}
+    </div>
+    <div class="visit-edit-form">
+        <div class="form-group">
+            <label>Nom du visiteur</label>
+            <input type="text" id="editVisitName" value="${e.name.replace(/"/g, '&quot;')}" placeholder="Ex: M. Dupont">
+        </div>
+        <div class="form-group">
+            <label>Société</label>
+            <input type="text" id="editVisitCompany" value="${e.company.replace(/"/g, '&quot;')}" placeholder="Ex: Partenaire XYZ">
+        </div>
+        <div class="form-group">
+            <label>Heure</label>
+            <input type="time" id="editVisitTime" value="${e.time}">
+        </div>
+        <div class="form-group">
+            <label>Motif</label>
+            <textarea id="editVisitReason" rows="3" placeholder="Ex: Réunion partenariat">${e.reason}</textarea>
+        </div>
+        <div class="visit-edit-actions">
+            <button class="add-btn" id="saveEditVisitBtn">💾</button>
+            <button class="delete-btn" id="cancelEditVisitBtn">✖️</button>
+        </div>
+    </div>
+`;
+                div.querySelector('#saveEditVisitBtn').onclick = async () => {
+                    const name = div.querySelector('#editVisitName').value.trim();
+                    const company = div.querySelector('#editVisitCompany').value.trim();
+                    const time = div.querySelector('#editVisitTime').value;
+                    const reason = div.querySelector('#editVisitReason').value.trim();
+                    if (!name || !company || !time || !reason) { alert('Champs requis'); return; }
+                    events[globalIndex].name = name;
+                    events[globalIndex].company = company;
+                    events[globalIndex].time = time;
+                    events[globalIndex].reason = reason;
+                    await save('eventsData', events);
+                    editingVisitIndex = null;
+                    renderVisits();
+                    await renderCalendar();
+                };
+                div.querySelector('#cancelEditVisitBtn').onclick = () => {
+                    editingVisitIndex = null;
+                    renderVisits();
+                };
+            } else {
+                div.innerHTML = `
+                    <div class="visit-details">
+                        <h4>${e.name}</h4>
+                        <p><strong>${e.company}</strong></p>
+                        <p>📅 ${e.date} à ${e.time}</p>
+                        <p>💼 ${e.reason}</p>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="add-btn" data-editvisit="${globalIndex}">✒️</button>
+                        <button class="delete-btn" data-index="${globalIndex}">🗑️</button>
+                    </div>
+                `;
+            }
+            visitsList.appendChild(div);
+        });
+        document.querySelectorAll('.visit-item .delete-btn[data-index]').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                if (confirm('Supprimer cet événement ?')) {
+                    const index = parseInt(e.target.dataset.index);
+                    const events = (await load('eventsData')) || [];
+                    events.splice(index, 1);
+                    await save('eventsData', events);
+                    await renderCalendar();
+                    await renderVisits();
+                }
+            });
+        });
+        document.querySelectorAll('.visit-item .add-btn[data-editvisit]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                editingVisitIndex = parseInt(e.target.dataset.editvisit);
+                renderVisits();
+            });
+        });
+    };
+
+    await renderCalendar();
+    await renderVisits();
+}); // <-- Ajout du '}' manquant ici pour fermer la fonction DOMContentLoaded
+    </script>
+</body>
+</html>
